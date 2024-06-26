@@ -3,12 +3,12 @@ const User = require("../models/usersSchema");
 require("dotenv").config();
 
 exports.jwtSign = async (req, res, next) => {
-  console.log(req.session.passport);
+  // console.log(req.session.passport);
   const user = await User.findById(req.session.passport.user);
-  console.log(user);
+  // console.log(user);
 
   jwt.sign(
-    { username: user.username, first_name: user.first_name },
+    { username: user.username, first_name: user.first_name, id: user._id },
     process.env.SECRET_KEY,
     { algorithm: "HS256" },
     (err, token) => {
@@ -23,7 +23,6 @@ exports.jwtSign = async (req, res, next) => {
 };
 
 exports.jwtVerify = (req, res, next) => {
-  console.log(req.headers);
   jwt.verify(
     // Here i have taken token from session , Instead i want to take token from the client's local storage.
     req.headers.authorization,
@@ -32,6 +31,7 @@ exports.jwtVerify = (req, res, next) => {
       if (err) res.sendStatus(403);
       else {
         console.log(decodedPayload);
+        req.body.commenter = decodedPayload.id;
         next();
       }
     }

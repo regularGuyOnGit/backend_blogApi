@@ -9,6 +9,8 @@ const commentController = require("../controllers/commentController");
 // index Router
 
 router.get("/", postController.get_postsRequest);
+
+// Authentication Login
 router.post(
   "/",
   passport.authenticate("local", {
@@ -18,15 +20,33 @@ router.post(
   //   and verification will be done through it only.
   authController.jwtSign
 );
+
+// Authentication Logout
+
+router.post("/logout", (req, res, next) => {
+  req.logout(function (err) {
+    if (err) res.json(err);
+    else {
+      res.end();
+    }
+  });
+});
+
+router.get("/posts/:postId", postController.get_post_sigle);
 // User creation router
 router.post("/signup", userController.post_user_signup);
 
-router.get(
+// router.get(
+//   "/comments",
+//   authController.jwtVerify,
+//   commentController.comments_get
+// );
+//! Comment post Router;
+
+router.post(
   "/comments",
   authController.jwtVerify,
-  commentController.comments_get
+  commentController.comments_post
 );
-router.get;
-module.exports = router;
 
-// When sending some strings through body then it only persists in a given route,wheres when sending it through the session it persists to the different routes also.
+module.exports = router;

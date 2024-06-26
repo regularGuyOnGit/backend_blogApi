@@ -46,3 +46,31 @@ exports.post_user_signup = [
     }
   }),
 ];
+
+// Login middleware for the Author.
+
+exports.Author_middleware_login = [
+  body("username", "Username is must").trim().notEmpty().escape(),
+  body("password", "Password is must").trim().notEmpty().escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const error = validationResult(req);
+    const isAuthor = await User.find({ username: req.body.username });
+
+    console.log(isAuthor);
+
+    if (!error.isEmpty()) {
+      res.status(400).json(error);
+    }
+    if (isAuthor.length <= 0) {
+      res.status(400).json({ message: "Incorrect username and password" });
+    }
+    if (isAuthor[0].userType != "author") {
+      res
+        .status(400)
+        .json({ message: `${req.body.username} is not an author.` });
+    } else {
+      next();
+    }
+  }),
+];

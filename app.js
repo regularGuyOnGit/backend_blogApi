@@ -4,6 +4,7 @@ const cookierParser = require("cookie-parser");
 const logger = require("morgan");
 const database = require("./configuration/Database");
 const mainRouter = require("./routes/mainRoute");
+const authorRouter = require("./routes/authorRoute");
 const session = require("express-session");
 const passport = require("./configuration/Auth");
 const cors = require("cors");
@@ -28,6 +29,7 @@ app.use(passport.session());
 
 // Routes;
 app.use("/", mainRouter);
+app.use("/Author", authorRouter);
 
 // Error Handler;
 
