@@ -60,5 +60,8 @@ Follow these steps to set up the project on your local machine.
 
 The application should now be running at http://localhost:5000 (backend).
 
+## Ps
+You need to clone the repositories of the fronted Blog Post also present here https://github.com/regularGuyOnGit/Frontend_blog_Users.git, Kindly go through their Readme.
+
 Author: Nitin Rai
 Email: nitinrai3000@gmail.com
